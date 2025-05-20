@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Place Bet</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #141e30, #243b55);
+      color: #fff;
+      text-align: center;
+      padding: 50px;
+    }
+    h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+    .container {
+      background-color: #1f2a40;
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 400px;
+      margin: auto;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+    select, input {
+      padding: 10px;
+      width: 100%;
+      margin: 10px 0;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #00c6ff;
+      color: #fff;
+      padding: 10px 20px;
+      margin: 10px 5px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background-color: #007acc;
+    }
+  </style>
+ 
+
+</head>
+<body>
+  <nav style="background: #222; padding: 10px; text-align: center;">
+  <a href="index.html" style="color:white; margin:10px;">Home</a>
+  <a href="recharge.html" style="color:white; margin:10px;">Recharge</a>
+  <a href="withdraw.html" style="color:white; margin:10px;">Withdraw</a>
+  <a href="history.html" style="color:white; margin:10px;">History</a>
+  <a href="account.html" style="color:white; margin:10px;">Account</a>
+  <a href="support.html" style="color:white; margin:10px;">Support</a>
+  <a href="login.html" style="color:white; margin:10px;">Logout</a>
+</nav>
+
+
+  <div class="container">
+    <h2>Place a Bet</h2>
+
+    <p><strong>Match:</strong> <span id="matchName">Loading...</span></p>
+
+    <label>Select Team:</label>
+    <select id="team">
+      <option value="Team1">Team 1</option>
+      <option value="Team2">Team 2</option>
+    </select>
+
+    <label>Bet Amount:</label>
+    <input type="number" id="amount" placeholder="Enter amount">
+
+    <button onclick="placeBet()">Submit Bet</button>
+    <button onclick="goBack()">⬅ Back to Dashboard</button>
+  </div>
+
+  <script>
+    // Simulate live match fetch
+    const liveMatch = {
+      team1: "India",
+      team2: "Australia"
+    };
+
+    document.getElementById("matchName").innerText = `${liveMatch.team1} vs ${liveMatch.team2}`;
+    document.getElementById("team").innerHTML = `
+      <option value="${liveMatch.team1}">${liveMatch.team1}</option>
+      <option value="${liveMatch.team2}">${liveMatch.team2}</option>
+    `;
+
+    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    let allUsers = JSON.parse(localStorage.getItem('users')) || [];
+
+    function placeBet() {
+      const team = document.getElementById('team').value;
+      const amount = parseInt(document.getElementById('amount').value);
+
+      if (isNaN(amount) || amount <= 0) {
+        alert("Enter valid amount");
+        return;
+      }
+
+      if (currentUser.balance < amount) {
+        alert("Insufficient balance!");
+        return;
+      }
+
+      const newBet = {
+        match: `${liveMatch.team1} vs ${liveMatch.team2}`,
+        team,
+        amount,
+        time: new Date().toLocaleString(),
+        result: "pending"
+      };
+
+      currentUser.bets = currentUser.bets || [];
+      currentUser.bets.push(newBet);
+      currentUser.balance -= amount;
+
+      const index = allUsers.findIndex(u => u.number === currentUser.number);
+      if (index !== -1) {
+        allUsers[index] = currentUser;
+        localStorage.setItem('users', JSON.stringify(allUsers));
+      }
+
+      localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+      alert("Bet placed successfully!");
+      window.location.href = "history.html";
+    }
+
+    function goBack() {
+      window.location.href = "index.html";
+    }
+    // जब यूज़र bet करता है, तो यह कोड रन करें:
+function saveBetHistory(amount, game, status) {
+  const user = JSON.parse(localStorage.getItem("loggedInUser"));
+  if (!user) return;
+
+  const history = JSON.parse(localStorage.getItem("betHistory")) || [];
+
+  history.push({
+    username: user.username,
+    game: game,
+    amount: amount,
+    status: status, // जैसे "Win" या "Lose"
+    time: new Date().toLocaleString()
+  });
+
+  localStorage.setItem("betHistory", JSON.stringify(history));
+}
+
+  </script>
+  <script src="script.js"></script>
+
+
+</body>
+</html>

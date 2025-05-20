@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Transaction History</title>
+  <style>
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #444;
+      text-align: left;
+    }
+    th {
+      background: #333;
+    }
+    h2 {
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav style="background: #222; padding: 10px; text-align: center;">
+    <a href="index.html" style="color:white; margin:10px;">Home</a>
+    <a href="recharge.html" style="color:white; margin:10px;">Recharge</a>
+    <a href="withdraw.html" style="color:white; margin:10px;">Withdraw</a>
+    <a href="history.html" style="color:white; margin:10px;">History</a>
+    <a href="account.html" style="color:white; margin:10px;">Account</a>
+    <a href="support.html" style="color:white; margin:10px;">Support</a>
+    <a href="login.html" style="color:white; margin:10px;">Logout</a>
+  </nav>
+
+  <h1>Transaction History</h1>
+
+  <h2>Recharge History</h2>
+  <table id="rechargeTable">
+    <thead>
+      <tr>
+        <th>Amount</th>
+        <th>Date</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <h2>Withdraw History</h2>
+  <table id="withdrawTable">
+    <thead>
+      <tr>
+        <th>Amount</th>
+        <th>Date</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script src="script.js"></script>
+  <script>
+    function loadHistory() {
+      const rechargeHistory = JSON.parse(localStorage.getItem("recharges")) || [];
+      const withdrawHistory = JSON.parse(localStorage.getItem("withdrawals")) || [];
+
+      const rechargeTable = document.getElementById("rechargeTable").querySelector("tbody");
+      const withdrawTable = document.getElementById("withdrawTable").querySelector("tbody");
+
+      rechargeTable.innerHTML = rechargeHistory.map(item => `
+        <tr>
+          <td>₹${item.amount}</td>
+          <td>${item.date}</td>
+          <td>${item.status}</td>
+        </tr>
+      `).join("");
+
+      withdrawTable.innerHTML = withdrawHistory.map(item => `
+        <tr>
+          <td>₹${item.amount}</td>
+          <td>${item.date}</td>
+          <td>${item.status}</td>
+        </tr>
+      `).join("");
+    }
+
+    window.onload = loadHistory;
+  </script>
+</body>
+</html>

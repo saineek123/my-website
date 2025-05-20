@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="js/css/style.css" />
+</head>
+<body>
+  <header style="background: #222; color: #fff; padding: 15px;">
+    <h2>Admin Dashboard</h2>
+    <button onclick="logout()" style="float: right;">Logout</button>
+  </header>
+
+  <main style="padding: 20px;">
+    <!-- Dashboard Summary -->
+    <section>
+      <h3>Overview</h3>
+      <div style="display: flex; gap: 20px;">
+        <div class="card">Total Users: <span id="totalUsers">0</span></div>
+        <div class="card">Total Recharge: ₹<span id="totalRecharge">0</span></div>
+        <div class="card">Total Withdraw: ₹<span id="totalWithdraw">0</span></div>
+      </div>
+    </section>
+
+    <!-- Recharge Requests -->
+    <section style="margin-top: 40px;">
+      <h3>Recharge Requests</h3>
+      <table border="1" width="100%" id="rechargeTable">
+        <tr>
+          <th>User</th><th>Amount</th><th>UPI</th><th>Action</th>
+        </tr>
+        <!-- JS से डाटा आएगा -->
+      </table>
+    </section>
+
+    <!-- Withdraw Requests -->
+    <section style="margin-top: 40px;">
+      <h3>Withdraw Requests</h3>
+      <table border="1" width="100%" id="withdrawTable">
+        <tr>
+          <th>User</th><th>Amount</th><th>UPI</th><th>Action</th>
+        </tr>
+        <!-- JS से डाटा आएगा -->
+      </table>
+    </section>
+
+    <!-- Users List -->
+    <section style="margin-top: 40px;">
+      <h3>All Users</h3>
+      <table border="1" width="100%" id="usersTable">
+        <tr>
+          <th>Username</th><th>Email</th><th>Balance</th>
+        </tr>
+        <!-- JS से डाटा आएगा -->
+      </table>
+    </section>
+  </main>
+  <div class="card">
+  <h3>📜 Slot Game History (Admin)</h3>
+  <button onclick="window.location.href='admin-slot-history.html'">View All</button>
+</div>
+
+
+  <script src="js/admin.js"></script>
+  <script src="script.js"></script>
+
+  
+</body>
+</html>

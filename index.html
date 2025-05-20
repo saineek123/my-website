@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Betting Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0f0f0f;
+      color: #fff;
+    }
+
+    header {
+      background-color: #1e1e1e;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .dashboard {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+
+    .info {
+      background: #222;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background-color: #1a1a1a;
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+      transition: 0.3s;
+      border: 1px solid #333;
+    }
+
+    .card:hover {
+      background-color: #2a2a2a;
+      transform: translateY(-5px);
+    }
+
+    .card h3 {
+      margin: 10px 0;
+      font-size: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background: #00bcd4;
+      border: none;
+      border-radius: 5px;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0097a7;
+    }
+
+    .logout {
+      margin-top: 30px;
+      text-align: center;
+    }
+    body {
+  font-family: Arial;
+  background: #111;
+  color: white;
+  padding: 20px;
+  margin: 0;
+}
+
+form {
+  max-width: 400px;
+  margin: auto;
+  background: #222;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+input, button {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🏁 Betting App</h1>
+  </header>
+  <nav style="background: #222; padding: 10px; text-align: center;">
+  <a href="index.html" style="color:white; margin:10px;">Home</a>
+  <a href="recharge.html" style="color:white; margin:10px;">Recharge</a>
+  <a href="withdraw.html" style="color:white; margin:10px;">Withdraw</a>
+  <a href="history.html" style="color:white; margin:10px;">History</a>
+  <a href="account.html" style="color:white; margin:10px;">Account</a>
+  <a href="support.html" style="color:white; margin:10px;">Support</a>
+  <a href="login.html" style="color:white; margin:10px;">Logout</a>
+</nav>
+
+
+  <div class="dashboard">
+    <div class="info">
+      <p><strong>User:</strong> <span id="userName">Loading...</span></p>
+      <p><strong>Balance:</strong> ₹<span id="userBalance">0</span></p>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <h3>⚽ Sports Betting</h3>
+        <button onclick="window.location.href='bet.html'">Play Now</button>
+  
+      </div>
+      <div class="card">
+        <h3>🎰 Slots</h3>
+        <button onclick="window.location.href='slots.html'">Play Now</button>
+      </div>
+      <div class="card">
+        <h3>🎰 Lucky Spin</h3>
+        <button onclick="window.location.href='spin.html'">Play Now</button>
+      </div>
+      <div class="card">
+        <h3>💰 Lottery</h3>
+  <a href="lottery.html">
+        <button>Play Now</button>
+      </a>
+    </div>
+    <div class="card">
+      <h3>💳 Wallet</h3>
+      <button onclick="window.location.href='wallet.html'"  </button>Withdraw</button>
+<div class="card">
+        <h3>Customer Support</h3>
+        <button onclick="window.location.href='support.html'">Contact Us</button>
+      </div>
+
+      <div class="card">
+        <h3>Recharge</h3>
+      <button onclick="window.location.href='recharge.html'">Recharge</button>
+      </div>
+</div>
+<div class="card">
+  <h3>👤 My Account</h3>
+  <button onclick="window.location.href='account.html'">View Profile</button>
+</div>
+
+
+</DIV>
+    <div class="card">
+      <h3>📜 History</h3>
+      <button onclick="window.location.href='history.html'">View History</button>
+    </div>
+    <div class="card">
+      <h3>⚙️ Settings</h3>
+      <button onclick="window.location.href='settings.html'">Settings</button>
+    </div>
+</div>
+<div 
+    <div class="logout">
+      <button onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <script>
+    // Load user data from localStorage
+    const user = JSON.parse(localStorage.getItem("loggedInUser"));
+    if (!user) {
+      window.location.href = "login.html";
+    } else {
+      document.getElementById("userName").innerText = user.username || "Guest";
+      document.getElementById("userBalance").innerText = user.balance || "1000";
+    }
+
+    function logout() {
+      localStorage.removeItem("loggedInUser");
+      window.location.href = "login.html";
+    }
+  </script>
+  <script src="script.js"></script>
+
+</body>
+</html>

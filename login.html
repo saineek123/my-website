@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login</title>
+  <style>
+    body { font-family: Arial; background: #111; color: #fff; padding: 20px; }
+    form { max-width: 300px; margin: auto; background: #222; padding: 20px; border-radius: 10px; }
+    input, button { width: 100%; padding: 10px; margin: 5px 0; }
+    h2 { text-align: center; }
+  </style>
+</head>
+<body>
+  <h2>User Login</h2>
+  <form id="loginForm">
+    <label>Username:</label>
+    <input type="text" id="username" required />
+    <label>Password:</label>
+    <input type="password" id="password" required />
+    <button type="submit">Login</button>
+  </form>
+<div>
+  <a href="register.html" style="color: #00e5ff; text-decoration: none;">Register</a>
+
+</div>
+  <script>
+    // Dummy user
+    const defaultUser = { username: "user1", password: "1234" };
+    if (!localStorage.getItem("users")) {
+      localStorage.setItem("users", JSON.stringify([defaultUser]));
+    }
+
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+      const foundUser = users.find(u => u.username === username && u.password === password);
+
+      if (foundUser) {
+        localStorage.setItem("loggedInUser", JSON.stringify(foundUser));
+        alert("Login successful!");
+        window.location.href = "index.html";
+      } else {
+        alert("Invalid username or password");
+      }
+    });
+  </script>
+  <script src="script.js"></script>
+
+</body>
+</html>

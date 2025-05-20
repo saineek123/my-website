@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Register</title>
+  <style>
+    body { font-family: Arial; background: #111; color: #fff; padding: 20px; }
+    form { max-width: 300px; margin: auto; background: #222; padding: 20px; border-radius: 10px; }
+    input, button { width: 100%; padding: 10px; margin: 5px 0; }
+    h2 { text-align: center; }
+  </style>
+</head>
+<body>
+  <h2>User Register</h2>
+  <form id="registerForm">
+    <label>Username:</label>
+    <input type="text" id="regUsername" required />
+    <label>Password:</label>
+    <input type="password" id="regPassword" required />
+    <button type="submit">Register</button>
+  </form>
+  <div>
+    <a href="login.html" style="color: #00e5ff; text-decoration: none;">Back to Login</a>
+  </div>
+
+  <script>
+    document.getElementById("registerForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const username = document.getElementById("regUsername").value;
+      const password = document.getElementById("regPassword").value;
+      
+
+      let users = JSON.parse(localStorage.getItem("users")) || [];
+
+      const userExists = users.some(user => user.username === username);
+      if (userExists) {
+        alert("Username already exists!");
+        return;
+      }
+
+      users.push({ username, password });
+      localStorage.setItem("users", JSON.stringify(users));
+      alert("Registration successful! You can now login.");
+      window.location.href = "login.html";
+    });
+  </script>
+  <script src="script.js"></script>
+
+</body>
+</html>

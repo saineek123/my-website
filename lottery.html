@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BDG Game - Step 3</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #2e2e38;
+      color: white;
+    }
+    .container {
+      max-width: 420px;
+      margin: auto;
+      padding: 15px;
+      background: #1f1f26;
+      border-radius: 12px;
+    }
+    .header {
+      text-align: center;
+      background: #15151c;
+      padding: 15px 0;
+      border-radius: 12px;
+      font-size: 24px;
+      color: gold;
+      font-weight: bold;
+    }
+    .timer-box {
+      background: #333;
+      padding: 10px;
+      text-align: center;
+      border-radius: 8px;
+      margin-top: 15px;
+    }
+    .timer {
+      font-size: 28px;
+      font-weight: bold;
+      color: #00ffc3;
+    }
+    .balance {
+      margin-top: 10px;
+      font-size: 18px;
+      text-align: center;
+      font-weight: bold;
+      color: gold;
+    }
+    .amount-input {
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+    }
+    .amount-input input {
+      width: 120px;
+      padding: 8px;
+      border-radius: 6px;
+      border: none;
+      font-size: 16px;
+      text-align: center;
+    }
+    .buttons, .numbers, .bigsmall {
+      margin: 15px 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+    .buttons button, .bigsmall button {
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+    }
+    .green { background: green; color: white; }
+    .violet { background: purple; color: white; }
+    .red { background: red; color: white; }
+    .numbers {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+    }
+    .numbers button {
+      padding: 10px;
+      border-radius: 50%;
+      font-size: 18px;
+      background: #444;
+      color: white;
+      border: 2px solid #888;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+    }
+    .result-box {
+      background: #121212;
+      padding: 10px;
+      border-radius: 6px;
+      margin-top: 10px;
+      font-size: 14px;
+      white-space: pre-line;
+      text-align: center;
+    }
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+    }
+    .tabs button {
+      padding: 8px 14px;
+      border: none;
+      background: #444;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <nav style="background: #222; padding: 10px; text-align: center;">
+  <a href="index.html" style="color:white; margin:10px;">Home</a>
+  <a href="recharge.html" style="color:white; margin:10px;">Recharge</a>
+  <a href="withdraw.html" style="color:white; margin:10px;">Withdraw</a>
+  <a href="history.html" style="color:white; margin:10px;">History</a>
+  <a href="account.html" style="color:white; margin:10px;">Account</a>
+  <a href="support.html" style="color:white; margin:10px;">Support</a>
+  <a href="login.html" style="color:white; margin:10px;">Logout</a>
+</nav>
+
+  <div class="container">
+    <div class="header">BDG GAME</div>
+
+    <div class="timer-box">
+      <div>Time remaining</div>
+      <div class="timer" id="timer">30</div>
+      <div style="margin-top:5px;">Period ID: <span id="period">20250519001</span></div>
+    </div>
+
+    <div class="balance" id="balance">💰 Balance: ₹1000</div>
+
+    <div class="amount-input">
+      <input type="number" id="amount" placeholder="Enter ₹ Amount" min="1" />
+    </div>
+
+    <div class="buttons">
+      <button class="green">Green</button>
+      <button class="violet">Violet</button>
+      <button class="red">Red</button>
+    </div>
+
+    <div class="numbers" id="number-buttons"></div>
+
+    <div class="bigsmall">
+      <button>Big</button>
+      <button>Small</button>
+    </div>
+
+    <div class="tabs">
+      <button onclick="showHistory()">📜 My History</button>
+    </div>
+
+    <div class="result-box" id="results">Waiting for results...</div>
+  </div>
+
+  <script>
+    let timer = 30;
+    let period = 20250519001;
+    let balance = parseInt(localStorage.getItem("balance")) || 1000;
+    let currentBets = [];
+
+    function updateBalance() {
+      document.getElementById("balance").innerText = "💰 Balance: ₹" + balance;
+      localStorage.setItem("balance", balance);
+    }
+
+    function getColor(num) {
+      if (num === 0 || num === 5) return "Violet";
+      return num % 2 === 0 ? "Red" : "Green";
+    }
+
+    function getSize(num) {
+      return num < 5 ? "Small" : "Big";
+    }
+
+    function placeBet(type, value) {
+      const amount = parseInt(document.getElementById("amount").value);
+      if (!amount || amount <= 0) {
+        alert("Enter valid amount!");
+        return;
+      }
+      if (amount > balance) {
+        alert("Not enough balance!");
+        return;
+      }
+
+      balance -= amount;
+      updateBalance();
+      currentBets.push({ type, value, amount });
+
+      document.getElementById("results").innerText =
+        `✅ Bet Placed: ${type} = ${value} | ₹${amount}`;
+    }
+
+    document.querySelectorAll(".buttons button").forEach(btn => {
+      btn.onclick = () => placeBet("color", btn.innerText);
+    });
+
+    const numberBox = document.getElementById("number-buttons");
+    for (let i = 0; i <= 9; i++) {
+      const btn = document.createElement("button");
+      btn.innerText = i;
+      btn.onclick = () => placeBet("number", i);
+      numberBox.appendChild(btn);
+    }
+
+    document.querySelectorAll(".bigsmall button").forEach(btn => {
+      btn.onclick = () => placeBet("size", btn.innerText);
+    });
+
+    function startTimer() {
+      setInterval(() => {
+        timer--;
+        if (timer <= 0) {
+          timer = 30;
+          period++;
+
+          const resultNum = Math.floor(Math.random() * 10);
+          const resultColor = getColor(resultNum);
+          const resultSize = getSize(resultNum);
+
+          let resultText = `🎯 Result => ${resultNum} | ${resultColor} | ${resultSize}\n`;
+          let roundHistory = `Period ${period} | Result: ${resultNum} (${resultColor}, ${resultSize})\n`;
+
+          if (currentBets.length > 0) {
+            currentBets.forEach(bet => {
+              let win = false;
+              if (bet.type === "number" && bet.value == resultNum) win = true;
+              if (bet.type === "color" && bet.value === resultColor) win = true;
+              if (bet.type === "size" && bet.value === resultSize) win = true;
+
+              if (win) {
+                balance += bet.amount * 2;
+                resultText += `✅ Win: ${bet.type}=${bet.value} (+₹${bet.amount * 2})\n`;
+              } else {
+                resultText += `❌ Lose: ${bet.type}=${bet.value} (-₹${bet.amount})\n`;
+              }
+            });
+
+            updateBalance();
+            saveToHistory(roundHistory + resultText);
+          } else {
+            resultText += "😐 No Bet Placed.";
+          }
+
+          currentBets = [];
+          document.getElementById("results").innerText = resultText;
+        }
+
+        document.getElementById("timer").innerText = timer;
+        document.getElementById("period").innerText = period;
+      }, 1000);
+    }
+
+    function saveToHistory(entry) {
+      let history = JSON.parse(localStorage.getItem("history")) || [];
+      history.unshift(entry);
+      if (history.length > 20) history.pop();
+      localStorage.setItem("history", JSON.stringify(history));
+    }
+
+    function showHistory() {
+      const history = JSON.parse(localStorage.getItem("history")) || [];
+      alert("📜 My History:\n\n" + history.join("\n------------------\n"));
+    }
+
+    updateBalance();
+    startTimer();
+  </script>
+  <script src="script.js"></script>
+
+</body>
+</html>

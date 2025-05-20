@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Wallet</title>
+  <link rel="stylesheet" href="js/css/style.css" />
+</head>
+<body>
+  <nav style="background: #222; padding: 10px; text-align: center;">
+  <a href="index.html" style="color:white; margin:10px;">Home</a>
+  <a href="recharge.html" style="color:white; margin:10px;">Recharge</a>
+  <a href="withdraw.html" style="color:white; margin:10px;">Withdraw</a>
+  <a href="history.html" style="color:white; margin:10px;">History</a>
+  <a href="account.html" style="color:white; margin:10px;">Account</a>
+  <a href="support.html" style="color:white; margin:10px;">Support</a>
+  <a href="login.html" style="color:white; margin:10px;">Logout</a>
+</nav>
+
+  <h2>Your Wallet</h2>
+
+  <div id="balanceCard" style="font-size: 24px; font-weight: bold; margin: 20px 0;">
+    Balance: ₹<span id="balanceAmount">0</span>
+  </div>
+
+  <button onclick="goToRecharge()">Recharge Wallet</button>
+  <button onclick="goToWithdraw()">Withdraw Money</button>
+
+  <script src="js/wallet.js"></script>
+  <script>
+    function goToRecharge() {
+      window.location.href = "recharge.html";
+    }
+    function goToWithdraw() {
+      window.location.href = "withdraw.html";
+    }
+  </script>
+  <script src="script.js"></script>
+
+</body>
+</html>
