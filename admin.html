@@ -4,19 +4,121 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin Panel</title>
-  <link rel="stylesheet" href="js/css/style.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #111;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #222;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h2 {
+      margin: 0;
+      color: #00e5ff;
+    }
+
+    header button {
+      background: #ff4444;
+      border: none;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    main {
+      padding: 20px;
+    }
+
+    section {
+      margin-bottom: 40px;
+    }
+
+    h3 {
+      margin-bottom: 10px;
+      color: #00e5ff;
+    }
+
+    .card {
+      background: #1c1c1c;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      box-shadow: 0 0 10px rgba(0,255,255,0.05);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #1c1c1c;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #333;
+      text-align: center;
+    }
+
+    th {
+      background: #222;
+      color: #00e5ff;
+    }
+
+    button.action-btn {
+      padding: 6px 10px;
+      margin: 2px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .approve {
+      background: #00c853;
+      color: white;
+    }
+
+    .reject {
+      background: #d50000;
+      color: white;
+    }
+
+    .slot-link {
+      background: #00e5ff;
+      color: black;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    img {
+      border-radius: 6px;
+    }
+  </style>
 </head>
 <body>
-  <header style="background: #222; color: #fff; padding: 15px;">
+
+  <header>
     <h2>Admin Dashboard</h2>
-    <button onclick="logout()" style="float: right;">Logout</button>
+    <button onclick="logout()">Logout</button>
   </header>
 
-  <main style="padding: 20px;">
-    <!-- Dashboard Summary -->
+  <main>
+    <!-- Overview -->
     <section>
       <h3>Overview</h3>
-      <div style="display: flex; gap: 20px;">
+      <div style="display: flex; gap: 20px; flex-wrap: wrap;">
         <div class="card">Total Users: <span id="totalUsers">0</span></div>
         <div class="card">Total Recharge: ₹<span id="totalRecharge">0</span></div>
         <div class="card">Total Withdraw: ₹<span id="totalWithdraw">0</span></div>
@@ -24,47 +126,134 @@
     </section>
 
     <!-- Recharge Requests -->
-    <section style="margin-top: 40px;">
+    <section>
       <h3>Recharge Requests</h3>
-      <table border="1" width="100%" id="rechargeTable">
+      <table id="rechargeTable">
         <tr>
-          <th>User</th><th>Amount</th><th>UPI</th><th>Action</th>
+          <th>Amount</th>
+          <th>UPI</th>
+          <th>Status</th>
+          <th>Screenshot</th>
+          <th>Action</th>
         </tr>
-        <!-- JS से डाटा आएगा -->
       </table>
     </section>
 
     <!-- Withdraw Requests -->
-    <section style="margin-top: 40px;">
+    <section>
       <h3>Withdraw Requests</h3>
-      <table border="1" width="100%" id="withdrawTable">
+      <table id="withdrawTable">
         <tr>
-          <th>User</th><th>Amount</th><th>UPI</th><th>Action</th>
+          <th>Amount</th>
+          <th>UPI</th>
+          <th>Status</th>
+          <th>Action</th>
         </tr>
-        <!-- JS से डाटा आएगा -->
       </table>
     </section>
 
     <!-- Users List -->
-    <section style="margin-top: 40px;">
+    <section>
       <h3>All Users</h3>
-      <table border="1" width="100%" id="usersTable">
+      <table id="usersTable">
         <tr>
-          <th>Username</th><th>Email</th><th>Balance</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Balance</th>
         </tr>
-        <!-- JS से डाटा आएगा -->
       </table>
     </section>
+
+    <!-- Slot History -->
+    <div class="card">
+      <h3>📜 Slot Game History (Admin)</h3>
+      <button class="slot-link" onclick="window.location.href='admin-slot-history.html'">View All</button>
+    </div>
   </main>
-  <div class="card">
-  <h3>📜 Slot Game History (Admin)</h3>
-  <button onclick="window.location.href='admin-slot-history.html'">View All</button>
-</div>
 
+  <script>
+    // Dummy fallback data
+    const users = JSON.parse(localStorage.getItem("users")) || [
+      { username: "User1", email: "user1@mail.com", balance: 150 },
+      { username: "User2", email: "user2@mail.com", balance: 200 }
+    ];
+    localStorage.setItem("users", JSON.stringify(users));
 
-  <script src="js/admin.js"></script>
-  <script src="script.js"></script>
+    const withdraws = JSON.parse(localStorage.getItem("withdraws")) || [
+      { amount: 100, upi: "user1@upi", status: "Pending" }
+    ];
+    localStorage.setItem("withdraws", JSON.stringify(withdraws));
 
-  
+    const recharges = JSON.parse(localStorage.getItem("recharges")) || [];
+
+    window.onload = function () {
+      document.getElementById("totalUsers").innerText = users.length;
+      document.getElementById("totalRecharge").innerText = recharges.reduce((sum, r) => sum + parseFloat(r.amount), 0);
+      document.getElementById("totalWithdraw").innerText = withdraws.reduce((sum, w) => sum + parseFloat(w.amount), 0);
+
+      const rechargeTable = document.getElementById("rechargeTable");
+      const withdrawTable = document.getElementById("withdrawTable");
+      const usersTable = document.getElementById("usersTable");
+
+      // Recharge Table with Screenshot
+      recharges.forEach((r, i) => {
+        const row = rechargeTable.insertRow();
+        const imgTag = r.screenshot
+          ? `<a href="${r.screenshot}" target="_blank"><img src="${r.screenshot}" width="50" /></a>`
+          : 'No Image';
+
+        row.innerHTML = `
+          <td>₹${r.amount}</td>
+          <td>${r.upi}</td>
+          <td class="status-${r.status?.toLowerCase()}">${r.status}</td>
+          <td>${imgTag}</td>
+          <td>
+            <button class="action-btn approve" onclick="updateRecharge(${i}, 'Approved')">Approve</button>
+            <button class="action-btn reject" onclick="updateRecharge(${i}, 'Rejected')">Reject</button>
+          </td>
+        `;
+      });
+
+      // Withdraw Table
+      withdraws.forEach((w, i) => {
+        const row = withdrawTable.insertRow();
+        row.innerHTML = `
+          <td>₹${w.amount}</td>
+          <td>${w.upi}</td>
+          <td class="status-${w.status?.toLowerCase()}">${w.status}</td>
+          <td>
+            <button class="action-btn approve" onclick="updateWithdraw(${i}, 'Approved')">Approve</button>
+            <button class="action-btn reject" onclick="updateWithdraw(${i}, 'Rejected')">Reject</button>
+          </td>
+        `;
+      });
+
+      // Users Table
+      users.forEach(user => {
+        const row = usersTable.insertRow();
+        row.innerHTML = `<td>${user.username}</td><td>${user.email}</td><td>₹${user.balance}</td>`;
+      });
+    };
+
+    function updateRecharge(index, status) {
+      const recharges = JSON.parse(localStorage.getItem("recharges")) || [];
+      recharges[index].status = status;
+      localStorage.setItem("recharges", JSON.stringify(recharges));
+      location.reload();
+    }
+
+    function updateWithdraw(index, status) {
+      const withdraws = JSON.parse(localStorage.getItem("withdraws")) || [];
+      withdraws[index].status = status;
+      localStorage.setItem("withdraws", JSON.stringify(withdraws));
+      location.reload();
+    }
+
+    function logout() {
+      alert("Logged out!");
+      window.location.href = "login.html";
+    }
+  </script>
+
 </body>
 </html>

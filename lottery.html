@@ -1,281 +1,292 @@
+<!-- Copy this full file into your index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>BDG Game - Step 3</title>
+  <meta charset="UTF-8">
+  <title>Betting Dashboard</title>
   <style>
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: #2e2e38;
-      color: white;
+      background-color: #0f0f0f;
+      color: #fff;
     }
-    .container {
-      max-width: 420px;
-      margin: auto;
-      padding: 15px;
-      background: #1f1f26;
-      border-radius: 12px;
-    }
-    .header {
+
+    header {
+      background-color: #1e1e1e;
+      padding: 20px;
       text-align: center;
-      background: #15151c;
-      padding: 15px 0;
-      border-radius: 12px;
+    }
+
+    header h1 {
+      margin: 0;
       font-size: 24px;
-      color: gold;
-      font-weight: bold;
     }
-    .timer-box {
-      background: #333;
+
+    nav {
+      background: #222;
       padding: 10px;
       text-align: center;
-      border-radius: 8px;
-      margin-top: 15px;
     }
-    .timer {
-      font-size: 28px;
+
+    nav a {
+      color: white;
+      margin: 10px;
+      text-decoration: none;
       font-weight: bold;
-      color: #00ffc3;
     }
-    .balance {
-      margin-top: 10px;
-      font-size: 18px;
-      text-align: center;
-      font-weight: bold;
-      color: gold;
+
+    .dashboard {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 20px;
     }
-    .amount-input {
-      margin-top: 10px;
-      display: flex;
-      justify-content: center;
-    }
-    .amount-input input {
-      width: 120px;
-      padding: 8px;
-      border-radius: 6px;
-      border: none;
-      font-size: 16px;
+
+    .info {
+      background: #222;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
       text-align: center;
     }
-    .buttons, .numbers, .bigsmall {
-      margin: 15px 0;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-    }
-    .buttons button, .bigsmall button {
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-size: 16px;
-      border: none;
-      cursor: pointer;
-    }
-    .green { background: green; color: white; }
-    .violet { background: purple; color: white; }
-    .red { background: red; color: white; }
-    .numbers {
+
+    .cards {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
     }
-    .numbers button {
-      padding: 10px;
-      border-radius: 50%;
-      font-size: 18px;
-      background: #444;
-      color: white;
-      border: 2px solid #888;
-      width: 50px;
-      height: 50px;
+
+    .card {
+      background-color: #1a1a1a;
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+      transition: 0.3s;
+      border: 1px solid #333;
+    }
+
+    .card:hover {
+      background-color: #2a2a2a;
+      transform: translateY(-5px);
+    }
+
+    .card h3 {
+      margin: 10px 0;
+      font-size: 20px;
+      color: #00c6ff;
+    }
+
+    button {
+      padding: 10px 20px;
+      background: #00bcd4;
+      border: none;
+      border-radius: 5px;
+      color: #000;
+      font-weight: bold;
       cursor: pointer;
     }
-    .result-box {
-      background: #121212;
+
+    button:hover {
+      background: #0097a7;
+    }
+
+    .team-btn {
+      display: flex;
+      justify-content: space-between;
+      background: #263545;
       padding: 10px;
-      border-radius: 6px;
+      margin: 5px 0;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .team-btn:hover {
+      background: #35597c;
+    }
+
+    .rate {
+      background: #00c6ff;
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #000;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
       margin-top: 10px;
-      font-size: 14px;
-      white-space: pre-line;
+      border-radius: 6px;
+      border: none;
+    }
+
+    .logout {
+      margin-top: 30px;
       text-align: center;
     }
-    .tabs {
-      display: flex;
-      justify-content: center;
-      margin-top: 10px;
-    }
-    .tabs button {
-      padding: 8px 14px;
-      border: none;
-      background: #444;
-      color: white;
-      border-radius: 6px;
-      cursor: pointer;
+
+    .betting-section {
+      margin-top: 40px;
     }
   </style>
 </head>
 <body>
-  <nav style="background: #222; padding: 10px; text-align: center;">
-  <a href="index.html" style="color:white; margin:10px;">Home</a>
-  <a href="recharge.html" style="color:white; margin:10px;">Recharge</a>
-  <a href="withdraw.html" style="color:white; margin:10px;">Withdraw</a>
-  <a href="history.html" style="color:white; margin:10px;">History</a>
-  <a href="account.html" style="color:white; margin:10px;">Account</a>
-  <a href="support.html" style="color:white; margin:10px;">Support</a>
-  <a href="login.html" style="color:white; margin:10px;">Logout</a>
-</nav>
+  <header>
+    <h1>🏁 Betting App</h1>
+  </header>
 
-  <div class="container">
-    <div class="header">BDG GAME</div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="recharge.html">Recharge</a>
+    <a href="withdraw.html">Withdraw</a>
+    <a href="history.html">History</a>
+    <a href="account.html">Account</a>
+    <a href="support.html">Support</a>
+    <a href="invite.html">Invite Friends</a>
+    <a href="login.html">Logout</a>
+  </nav>
 
-    <div class="timer-box">
-      <div>Time remaining</div>
-      <div class="timer" id="timer">30</div>
-      <div style="margin-top:5px;">Period ID: <span id="period">20250519001</span></div>
+  <div class="dashboard">
+    <div class="info">
+      <p><strong>User:</strong> <span id="userName">Loading...</span></p>
+      <p><strong>Balance:</strong> ₹<span id="userBalance">0</span></p>
     </div>
 
-    <div class="balance" id="balance">💰 Balance: ₹1000</div>
-
-    <div class="amount-input">
-      <input type="number" id="amount" placeholder="Enter ₹ Amount" min="1" />
+    <div class="cards">
+      <div class="card">
+        <h3>⚽ Sports Betting</h3>
+        <button onclick="window.location.href='bet.html'">Play Now</button>
+      </div>
+      <div class="card">
+        <h3>🎰 Slots</h3>
+        <button onclick="window.location.href='slots.html'">Play Now</button>
+      </div>
+      <div class="card">
+        <h3>🎰 Lucky Spin</h3>
+        <button onclick="window.location.href='spin.html'">Play Now</button>
+      </div>
+      <div class="card">
+        <h3>💰 Lottery</h3>
+        <button onclick="window.location.href='lottery.html'">Play Now</button>
+      </div>
+      <div class="card">
+        <h3>💳 Wallet</h3>
+        <button onclick="window.location.href='wallet.html'">Withdraw</button>
+      </div>
+      <div class="card">
+        <h3>Recharge</h3>
+        <button onclick="window.location.href='recharge.html'">Recharge</button>
+      </div>
+      <div class="card">
+        <h3>👤 My Account</h3>
+        <button onclick="window.location.href='account.html'">View Profile</button>
+      </div>
+      <div class="card">
+        <h3>⚙️ Settings</h3>
+        <button onclick="window.location.href='settings.html'">Settings</button>
+      </div>
     </div>
 
-    <div class="buttons">
-      <button class="green">Green</button>
-      <button class="violet">Violet</button>
-      <button class="red">Red</button>
+    <!-- Betting System Start -->
+    <div class="betting-section">
+      <h2 style="text-align:center; margin-bottom:20px;">🔥 Live Betting Matches</h2>
+      <div class="cards" id="matchesContainer"></div>
     </div>
 
-    <div class="numbers" id="number-buttons"></div>
-
-    <div class="bigsmall">
-      <button>Big</button>
-      <button>Small</button>
+    <div class="logout">
+      <button onclick="logout()">Logout</button>
     </div>
-
-    <div class="tabs">
-      <button onclick="showHistory()">📜 My History</button>
-    </div>
-
-    <div class="result-box" id="results">Waiting for results...</div>
   </div>
 
   <script>
-    let timer = 30;
-    let period = 20250519001;
-    let balance = parseInt(localStorage.getItem("balance")) || 1000;
-    let currentBets = [];
-
-    function updateBalance() {
-      document.getElementById("balance").innerText = "💰 Balance: ₹" + balance;
-      localStorage.setItem("balance", balance);
+    const user = JSON.parse(localStorage.getItem("loggedInUser"));
+    if (!user) {
+      window.location.href = "login.html";
+    } else {
+      document.getElementById("userName").innerText = user.username || "Guest";
+      document.getElementById("userBalance").innerText = user.balance || "1000";
     }
 
-    function getColor(num) {
-      if (num === 0 || num === 5) return "Violet";
-      return num % 2 === 0 ? "Red" : "Green";
+    function logout() {
+      localStorage.removeItem("loggedInUser");
+      window.location.href = "login.html";
     }
 
-    function getSize(num) {
-      return num < 5 ? "Small" : "Big";
+    const matches = JSON.parse(localStorage.getItem("matchRates")) || [];
+    const selectedBets = {};
+
+    function renderMatches() {
+      const container = document.getElementById("matchesContainer");
+      container.innerHTML = "";
+
+      matches.forEach(match => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <h3>${match.team1} vs ${match.team2}</h3>
+          <div class="team-btn" onclick="selectTeam(${match.id}, '${match.team1}', ${match.rate1})">
+            <span>${match.team1}</span><span class="rate">@${match.rate1}</span>
+          </div>
+          <div class="team-btn" onclick="selectTeam(${match.id}, '${match.team2}', ${match.rate2})">
+            <span>${match.team2}</span><span class="rate">@${match.rate2}</span>
+          </div>
+          <input type="number" id="amount-${match.id}" placeholder="Enter Amount">
+          <button onclick="placeBet(${match.id})">Place Bet</button>
+          <div id="selected-${match.id}" style="font-size:14px; margin-top:5px;"></div>
+        `;
+        container.appendChild(card);
+      });
     }
 
-    function placeBet(type, value) {
-      const amount = parseInt(document.getElementById("amount").value);
-      if (!amount || amount <= 0) {
-        alert("Enter valid amount!");
+    function selectTeam(matchId, team, rate) {
+      selectedBets[matchId] = { team, rate };
+      document.getElementById(`selected-${matchId}`).innerText = `Selected: ${team} @${rate}`;
+    }
+
+    function placeBet(matchId) {
+      const amount = parseFloat(document.getElementById(`amount-${matchId}`).value);
+      const selected = selectedBets[matchId];
+
+      if (!selected || isNaN(amount) || amount <= 0) {
+        alert("Select team and valid amount.");
         return;
       }
-      if (amount > balance) {
-        alert("Not enough balance!");
+
+      if (user.balance < amount) {
+        alert("Insufficient balance!");
         return;
       }
 
-      balance -= amount;
-      updateBalance();
-      currentBets.push({ type, value, amount });
+      const returnAmount = (amount * selected.rate).toFixed(2);
+      const match = matches.find(m => m.id === matchId);
 
-      document.getElementById("results").innerText =
-        `✅ Bet Placed: ${type} = ${value} | ₹${amount}`;
+      const newBet = {
+        match: `${match.team1} vs ${match.team2}`,
+        team: selected.team,
+        rate: selected.rate,
+        amount: amount,
+        return: returnAmount,
+        time: new Date().toLocaleString(),
+        result: "pending"
+      };
+
+      user.bets = user.bets || [];
+      user.bets.push(newBet);
+      user.balance -= amount;
+
+      let allUsers = JSON.parse(localStorage.getItem("users")) || [];
+      const index = allUsers.findIndex(u => u.number === user.number);
+      if (index !== -1) {
+        allUsers[index] = user;
+        localStorage.setItem("users", JSON.stringify(allUsers));
+      }
+
+      localStorage.setItem("loggedInUser", JSON.stringify(user));
+      alert(`✅ Bet placed on ${selected.team}. Return: ₹${returnAmount}`);
+      window.location.href = "history.html";
     }
 
-    document.querySelectorAll(".buttons button").forEach(btn => {
-      btn.onclick = () => placeBet("color", btn.innerText);
-    });
-
-    const numberBox = document.getElementById("number-buttons");
-    for (let i = 0; i <= 9; i++) {
-      const btn = document.createElement("button");
-      btn.innerText = i;
-      btn.onclick = () => placeBet("number", i);
-      numberBox.appendChild(btn);
-    }
-
-    document.querySelectorAll(".bigsmall button").forEach(btn => {
-      btn.onclick = () => placeBet("size", btn.innerText);
-    });
-
-    function startTimer() {
-      setInterval(() => {
-        timer--;
-        if (timer <= 0) {
-          timer = 30;
-          period++;
-
-          const resultNum = Math.floor(Math.random() * 10);
-          const resultColor = getColor(resultNum);
-          const resultSize = getSize(resultNum);
-
-          let resultText = `🎯 Result => ${resultNum} | ${resultColor} | ${resultSize}\n`;
-          let roundHistory = `Period ${period} | Result: ${resultNum} (${resultColor}, ${resultSize})\n`;
-
-          if (currentBets.length > 0) {
-            currentBets.forEach(bet => {
-              let win = false;
-              if (bet.type === "number" && bet.value == resultNum) win = true;
-              if (bet.type === "color" && bet.value === resultColor) win = true;
-              if (bet.type === "size" && bet.value === resultSize) win = true;
-
-              if (win) {
-                balance += bet.amount * 2;
-                resultText += `✅ Win: ${bet.type}=${bet.value} (+₹${bet.amount * 2})\n`;
-              } else {
-                resultText += `❌ Lose: ${bet.type}=${bet.value} (-₹${bet.amount})\n`;
-              }
-            });
-
-            updateBalance();
-            saveToHistory(roundHistory + resultText);
-          } else {
-            resultText += "😐 No Bet Placed.";
-          }
-
-          currentBets = [];
-          document.getElementById("results").innerText = resultText;
-        }
-
-        document.getElementById("timer").innerText = timer;
-        document.getElementById("period").innerText = period;
-      }, 1000);
-    }
-
-    function saveToHistory(entry) {
-      let history = JSON.parse(localStorage.getItem("history")) || [];
-      history.unshift(entry);
-      if (history.length > 20) history.pop();
-      localStorage.setItem("history", JSON.stringify(history));
-    }
-
-    function showHistory() {
-      const history = JSON.parse(localStorage.getItem("history")) || [];
-      alert("📜 My History:\n\n" + history.join("\n------------------\n"));
-    }
-
-    updateBalance();
-    startTimer();
+    renderMatches();
   </script>
-  <script src="script.js"></script>
-
 </body>
 </html>
